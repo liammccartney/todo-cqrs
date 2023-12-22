@@ -1,5 +1,4 @@
 defmodule TodoWeb.Router do
-  alias TodoWeb.TodoLive
   use TodoWeb, :router
 
   pipeline :browser do
@@ -16,7 +15,6 @@ defmodule TodoWeb.Router do
   end
 
   scope "/", TodoWeb do
-    live "/", TodoLive
   end
 
   # Other scopes may use custom stacks.
