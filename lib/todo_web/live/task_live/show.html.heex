@@ -1,5 +1,5 @@
 <.header>
-  Task <%= @task.id %>
+  Task <%= @task.uuid %>
   <:subtitle>This is a task record from your database.</:subtitle>
   <:actions>
     <.link patch={~p"/tasks/#{@task}/edit"} phx-click={JS.push_focus()}>
@@ -10,7 +10,6 @@
 
 <.list>
   <:item title="Title"><%= @task.title %></:item>
-  <:item title="Body"><%= @task.body %></:item>
   <:item title="Order"><%= @task.order %></:item>
   <:item title="Completed at"><%= @task.completed_at %></:item>
 </.list>
@@ -20,7 +19,7 @@
 <.modal :if={@live_action == :edit} id="task-modal" show on_cancel={JS.patch(~p"/tasks/#{@task}")}>
   <.live_component
     module={TodoWeb.TaskLive.FormComponent}
-    id={@task.id}
+    id={@task.uuid}
     title={@page_title}
     action={@live_action}
     task={@task}

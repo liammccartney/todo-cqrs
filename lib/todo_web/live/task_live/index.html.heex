@@ -13,7 +13,6 @@
   row_click={fn {_id, task} -> JS.navigate(~p"/tasks/#{task}") end}
 >
   <:col :let={{_id, task}} label="Title"><%= task.title %></:col>
-  <:col :let={{_id, task}} label="Body"><%= task.body %></:col>
   <:col :let={{_id, task}} label="Order"><%= task.order %></:col>
   <:col :let={{_id, task}} label="Completed at"><%= task.completed_at %></:col>
   <:action :let={{_id, task}}>
@@ -22,9 +21,9 @@
     </div>
     <.link patch={~p"/#{task}/edit"}>Edit</.link>
   </:action>
-  <:action :let={{id, task}}>
+  <:action :let={{uuid, task}}>
     <.link
-      phx-click={JS.push("delete", value: %{id: task.id}) |> hide("##{id}")}
+      phx-click={JS.push("delete", value: %{uuid: task.uuid}) |> hide("##{uuid}")}
       data-confirm="Are you sure?"
     >
       Delete
@@ -35,7 +34,7 @@
 <.modal :if={@live_action in [:new, :edit]} id="task-modal" show on_cancel={JS.patch(~p"/")}>
   <.live_component
     module={TodoWeb.TaskLive.FormComponent}
-    id={@task.id || :new}
+    id={@task.uuid || :new}
     title={@page_title}
     action={@live_action}
     task={@task}

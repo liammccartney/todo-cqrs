@@ -6,7 +6,7 @@ defmodule TodoWeb.TaskLive.Index do
 
   @impl true
   def mount(_params, _session, socket) do
-    {:ok, stream(socket, :tasks, Tasks.list_tasks())}
+    {:ok, socket |> stream_configure(:tasks, dom_id: &(&1.uuid)) |> stream(:tasks, Tasks.list_tasks())}
   end
 
   @impl true
