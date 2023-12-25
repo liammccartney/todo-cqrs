@@ -18,7 +18,8 @@ defmodule Todo.Application do
       # {Todo.Worker, arg},
       # Start to serve requests, typically the last entry
       TodoWeb.Endpoint,
-      Todo.EventApplication
+      Todo.EventApplication,
+      Todo.Tasks.Supervisor
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

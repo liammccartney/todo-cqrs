@@ -4,6 +4,8 @@ defmodule Todo.Tasks do
   """
 
   import Ecto.Query, warn: false
+  alias Todo.EventApplication
+  alias Todo.Tasks.Commands.CreateTask
   alias Todo.Repo
 
   alias Todo.Tasks.Task
@@ -50,9 +52,16 @@ defmodule Todo.Tasks do
 
   """
   def create_task(attrs \\ %{}) do
-    %Task{}
-    |> Task.changeset(attrs)
-    |> Repo.insert()
+    command =
+      attrs
+      |> CreateTask.new()
+      |> CreateTask.set_uuid(Ecto.UUID.generate())
+
+    with :ok <- EventApplication.dispatch(command, consistency: :strong) do
+      {:ok, get_task!(command.uuid)}
+    else
+      reply -> reply
+    end
   end
 
   @doc """

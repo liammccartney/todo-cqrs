@@ -6,7 +6,7 @@ defmodule Todo.Tasks.Projectors.TaskProjector do
     name: "Todo.Tasks.Projectors.TaskProjector",
     application: Todo.EventApplication,
     # TODO: Move to eventual consistency
-    consitency: :strong
+    consistency: :strong
 
   project(%TaskCreated{} = created_event, _, fn multi ->
     Ecto.Multi.insert(multi, :task, %Task{
