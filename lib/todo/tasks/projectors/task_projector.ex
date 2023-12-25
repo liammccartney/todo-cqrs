@@ -1,4 +1,5 @@
 defmodule Todo.Tasks.Projectors.TaskProjector do
+  alias Todo.Tasks.Events.TaskDeleted
   alias Todo.Tasks.Task
   alias Todo.Tasks.Events.TaskCreated
 
@@ -13,6 +14,12 @@ defmodule Todo.Tasks.Projectors.TaskProjector do
       uuid: created_event.uuid,
       title: created_event.title,
       order: created_event.order
+    })
+  end)
+
+  project(%TaskDeleted{uuid: uuid}, _, fn multi ->
+    Ecto.Multi.delete(multi, :task, %Task{
+      uuid: uuid
     })
   end)
 end

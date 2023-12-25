@@ -38,9 +38,9 @@ defmodule TodoWeb.TaskLive.Index do
   end
 
   @impl true
-  def handle_event("delete", %{"id" => id}, socket) do
-    task = Tasks.get_task!(id)
-    {:ok, _} = Tasks.delete_task(task)
+  def handle_event("delete", %{"uuid" => uuid}, socket) do
+    task = Tasks.get_task!(uuid)
+    {:ok, _} = Tasks.delete_task(uuid)
 
     {:noreply, stream_delete(socket, :tasks, task)}
   end

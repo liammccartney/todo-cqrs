@@ -4,6 +4,7 @@ defmodule Todo.Tasks do
   """
 
   import Ecto.Query, warn: false
+  alias Todo.Tasks.Commands.DeleteTask
   alias Todo.EventApplication
   alias Todo.Tasks.Commands.CreateTask
   alias Todo.Repo
@@ -94,8 +95,12 @@ defmodule Todo.Tasks do
       {:error, %Ecto.Changeset{}}
 
   """
-  def delete_task(%Task{} = task) do
-    Repo.delete(task)
+  def delete_task(uuid) do
+    with :ok <- EventApplication.dispatch(%DeleteTask{uuid: uuid}) do
+      {:ok, nil}
+    else
+      reply -> reply
+    end
   end
 
   @doc """
